@@ -33,7 +33,7 @@ class Applicant(models.Model):
         ('internal', 'Internal'),
         ('external', 'External'),
     ], string='Type', related='job_id.job_type')
-    user_id = fields.Many2one(related='job_id.user_id')
+    user_id = fields.Many2one(related='job_id.user_id', store=True)
     user_applicant_id = fields.Integer(related='job_id.create_uid.id')
     # stage_id = fields.Many2one(readonly=True)
     flag_admin = fields.Boolean(
@@ -93,6 +93,11 @@ class Applicant(models.Model):
     flag_mail_off = fields.Boolean(string='Mail Off')
     # partner_id = fields.Many2one(related="user_id.partner_id")
 
+    # @api.depends('job_id')
+    # def _get_user(self):
+    #     for rec in self :
+    #         rec.user_id = rec.job_id.user_id.id
+    
     @api.model
     def create(self, vals):
         rec = super(Applicant, self).create(vals)
