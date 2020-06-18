@@ -309,6 +309,11 @@ class Applicant(models.Model):
             res = super(Applicant, self)._track_template({})
         return res
 
+    def update_set_responsible(self):
+        job = self.search([('job_id', '!=', False)])
+        for rec in job :
+            rec.user_id = rec.job_id.user_id
+
 
 # class MailThread(models.AbstractModel):
 #     _inherit = 'mail.thread'
